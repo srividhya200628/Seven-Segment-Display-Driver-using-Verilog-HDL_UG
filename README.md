@@ -26,46 +26,63 @@ Capture screenshots of the waveform and save the simulation logs. These will be 
 # Verilog Code for Seven-Segment Display
 ```
 // seven_segment_display.v
+'timescale ins/1ps
 module seven_segment_display (
-    input wire [3:0] binary_input,
-    output reg [6:0] seg_output
+    input  wire [3:0] num,     
+    output reg  [6:0] seg      
 );
-
-always @(*) begin
-    case (binary_input)
-        
-        
-        default: seg_output = 7'b0000000; // blank or error
+always @(*) 
+begin
+    case(num)
+        4'd0: seg = 7'b1111110;
+        4'd1: seg = 7'b0110000;
+        4'd2: seg = 7'b1101101;
+        4'd3: seg = 7'b1111001;
+        4'd4: seg = 7'b0110011;
+        4'd5: seg = 7'b1011011;
+        4'd6: seg = 7'b1011111;
+        4'd7: seg = 7'b1110000;
+        4'd8: seg = 7'b1111111;
+        4'd9: seg = 7'b1111011;
+        default: seg = 7'b0000000;
     endcase
 end
-
 endmodule
 ```
 # Testbench for Seven-Segment Display
 ```
 
 `timescale 1ns / 1ps
-module seven_segment_display_tb;
-// Inputs
-reg [3:0] binary_input;
-// Outputs
-wire [6:0] seg_output;
-// Instantiate the Unit Under Test (UUT)
+module tb_seven_segment_display;
+reg  [3:0] num;
+wire [6:0] seg;
 seven_segment_display uut (
-    .binary_input(binary_input),
-    .seg_output(seg_output)
+    .num(num),
+    .seg(seg)
 );
-// Test procedure
-initial begin
-    // Initialize inputs
-    binary_input = 4'b0000;
 
+initial 
+begin
+    num = 4'd0;
+    #10 num = 4'd0;
+    #10 num = 4'd1;
+    #10 num = 4'd2;
+    #10 num = 4'd3;
+    #10 num = 4'd4;
+    #10 num = 4'd5;
+    #10 num = 4'd6;
+    #10 num = 4'd7;
+    #10 num = 4'd8;
+    #10 num = 4'd9;
+    #10 $stop;
 end
 endmodule
 ```
 
 # Simulated Output
-_____ Keep Simulated output ___________
+
+<img width="826" height="561" alt="image" src="https://github.com/user-attachments/assets/5800ad86-0377-4b64-9b7b-69177ac27a37" />
+
 
 # Conclusion
 In this experiment, a seven-segment display driver was successfully designed and simulated using Verilog HDL. The simulation results confirmed that the display correctly represented the digits 0 to 9 based on the 4-bit binary input. The testbench effectively verified the functionality of the seven-segment display by applying various input combinations and observing the corresponding segment outputs.
